@@ -1,4 +1,4 @@
-<h2>Show Player</h2>
+<h2>Show User Details</h2>
 
 <ul>
   <li><strong>ID: </strong><%= @player.id %></li>

@@ -15475,377 +15475,110 @@ var _fbonetti$elm_phoenix_socket$Phoenix_Socket$listen = F2(
 			});
 	});
 
-var _user$project$Main$playersListItem = function (player) {
-	var displayName = _elm_lang$core$Native_Utils.eq(player.displayName, _elm_lang$core$Maybe$Nothing) ? player.username : A2(_elm_lang$core$Maybe$withDefault, '', player.displayName);
-	return A2(
-		_elm_lang$html$Html$li,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('player-item list-group-item'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$strong,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(displayName),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$span,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('badge'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							_elm_lang$core$Basics$toString(player.score)),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
+var _user$project$Main$decodeLatLong = function (str) {
+	var _p0 = A2(_elm_lang$core$Json_Decode$decodeString, _elm_lang$core$Json_Decode$float, str);
+	if (_p0.ctor === 'Ok') {
+		return _elm_lang$core$Json_Decode$succeed(_p0._0 / 10000);
+	} else {
+		return _elm_lang$core$Json_Decode$fail(_p0._0);
+	}
 };
-var _user$project$Main$playersList = function (players) {
+var _user$project$Main$onChange = function (toMsg) {
 	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('players-list panel panel-info'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('panel-heading'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Leaderboard'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$ul,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('list-group'),
-						_1: {ctor: '[]'}
-					},
-					A2(_elm_lang$core$List$map, _user$project$Main$playersListItem, players)),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$Main$playersSortedByScore = function (players) {
-	return _elm_lang$core$List$reverse(
+		_elm_lang$html$Html_Events$on,
+		'change',
 		A2(
-			_elm_lang$core$List$sortBy,
-			function (_) {
-				return _.score;
-			},
-			players));
-};
-var _user$project$Main$playersIndex = function (model) {
-	return _elm_lang$core$List$isEmpty(model.playersList) ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{ctor: '[]'}) : A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('players-index'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
+			_elm_lang$core$Json_Decode$map,
+			toMsg,
+			A2(
+				_elm_lang$core$Json_Decode$at,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('players-section'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Players'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Main$playersList(
-					_user$project$Main$playersSortedByScore(model.playersList)),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _user$project$Main$gamesListItem = function (game) {
-	return A2(
-		_elm_lang$html$Html$a,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$href(
-				A2(_elm_lang$core$Basics_ops['++'], 'games/', game.slug)),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$li,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('game-item media'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('media-left'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$img,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('media-object'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$src(game.thumbnail),
-										_1: {ctor: '[]'}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
+					_0: 'target',
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('media-body media-middle'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$h4,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('media-heading'),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(game.title),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$p,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text(game.description),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}),
+						_0: 'value',
 						_1: {ctor: '[]'}
 					}
-				}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Main$gamesList = function (games) {
-	return A2(
-		_elm_lang$html$Html$ul,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('games-list media-list'),
-			_1: {ctor: '[]'}
-		},
-		A2(_elm_lang$core$List$map, _user$project$Main$gamesListItem, games));
-};
-var _user$project$Main$gamesIndex = function (model) {
-	return _elm_lang$core$List$isEmpty(model.gamesList) ? A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{ctor: '[]'}) : A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('games-index'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('games-section'),
-					_1: {ctor: '[]'}
 				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Games'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Main$gamesList(model.gamesList),
-				_1: {ctor: '[]'}
-			}
-		});
+				A2(_elm_lang$core$Json_Decode$andThen, _user$project$Main$decodeLatLong, _elm_lang$core$Json_Decode$string))));
 };
-var _user$project$Main$featuredGame = function (games) {
-	return _elm_lang$core$List$head(
+var _user$project$Main$googleMap = _elm_lang$html$Html$node('google-map');
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'SetLatitude':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{latitude: _p1._0}),
+					{ctor: '[]'});
+			case 'SetLongitude':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{longitude: _p1._0}),
+					{ctor: '[]'});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{latitude: _p1._0, longitude: _p1._1}),
+					{ctor: '[]'});
+		}
+	});
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: {latitude: 48.2082, longitude: 16.3738},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {latitude: a, longitude: b};
+	});
+var _user$project$Main$SetLatLong = F2(
+	function (a, b) {
+		return {ctor: 'SetLatLong', _0: a, _1: b};
+	});
+var _user$project$Main$recordLatLongOnDrag = A2(
+	_elm_lang$html$Html_Events$on,
+	'google-map-drag',
+	A3(
+		_elm_lang$core$Json_Decode$map2,
+		_user$project$Main$SetLatLong,
 		A2(
-			_elm_lang$core$List$filter,
-			function (_) {
-				return _.featured;
+			_elm_lang$core$Json_Decode$at,
+			{
+				ctor: '::',
+				_0: 'target',
+				_1: {
+					ctor: '::',
+					_0: 'latitude',
+					_1: {ctor: '[]'}
+				}
 			},
-			games));
+			_elm_lang$core$Json_Decode$float),
+		A2(
+			_elm_lang$core$Json_Decode$at,
+			{
+				ctor: '::',
+				_0: 'target',
+				_1: {
+					ctor: '::',
+					_0: 'longitude',
+					_1: {ctor: '[]'}
+				}
+			},
+			_elm_lang$core$Json_Decode$float)));
+var _user$project$Main$SetLongitude = function (a) {
+	return {ctor: 'SetLongitude', _0: a};
 };
-var _user$project$Main$featured = function (model) {
-	var _p0 = _user$project$Main$featuredGame(model.gamesList);
-	if (_p0.ctor === 'Just') {
-		var _p1 = _p0._0;
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('row featured'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('container'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('featured-img'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$img,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('featured-thumbnail'),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$src(_p1.thumbnail),
-											_1: {ctor: '[]'}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('featured-data'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$h1,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Featured'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$h2,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text(_p1.title),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$p,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text(_p1.description),
-													_1: {ctor: '[]'}
-												}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$a,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('btn btn-lg btn-primary'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$href(
-																A2(_elm_lang$core$Basics_ops['++'], 'games/', _p1.slug)),
-															_1: {ctor: '[]'}
-														}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Play Now!'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			});
-	} else {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'});
-	}
+var _user$project$Main$SetLatitude = function (a) {
+	return {ctor: 'SetLatitude', _0: a};
 };
 var _user$project$Main$view = function (model) {
 	return A2(
@@ -15853,145 +15586,175 @@ var _user$project$Main$view = function (model) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _user$project$Main$featured(model),
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Latitude'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('range'),
+								_1: {
+									ctor: '::',
+									_0: A2(_elm_lang$html$Html_Attributes$attribute, 'min', '-1800000'),
+									_1: {
+										ctor: '::',
+										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'max', '1800000'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$defaultValue(
+												_elm_lang$core$Basics$toString(model.latitude)),
+											_1: {
+												ctor: '::',
+												_0: _user$project$Main$onChange(_user$project$Main$SetLatitude),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(
+										_elm_lang$core$Basics$toString(model.latitude)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Main$gamesIndex(model),
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Longitude'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('range'),
+									_1: {
+										ctor: '::',
+										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'min', '-1800000'),
+										_1: {
+											ctor: '::',
+											_0: A2(_elm_lang$html$Html_Attributes$attribute, 'max', '1800000'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$defaultValue(
+													_elm_lang$core$Basics$toString(model.longitude)),
+												_1: {
+													ctor: '::',
+													_0: _user$project$Main$onChange(_user$project$Main$SetLongitude),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$span,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text(
+											_elm_lang$core$Basics$toString(model.longitude)),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Main$playersIndex(model),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('elm-logo'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src('http://package.elm-lang.org/assets/elm_logo.svg'),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_user$project$Main$googleMap,
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html_Attributes$attribute,
+									'latitude',
+									_elm_lang$core$Basics$toString(model.latitude)),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html_Attributes$attribute,
+										'longitude',
+										_elm_lang$core$Basics$toString(model.longitude)),
+									_1: {
+										ctor: '::',
+										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'drag-events', 'true'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$Main$recordLatLongOnDrag,
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		});
 };
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p2 = msg;
-		if (_p2.ctor === 'FetchGamesList') {
-			var _p3 = _p2._0;
-			if (_p3.ctor === 'Ok') {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{gamesList: _p3._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			} else {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							errors: _elm_lang$core$Basics$toString(_p3._0)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			}
-		} else {
-			var _p4 = _p2._0;
-			if (_p4.ctor === 'Ok') {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{playersList: _p4._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			} else {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							errors: _elm_lang$core$Basics$toString(_p4._0)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			}
-		}
-	});
-var _user$project$Main$initialModel = {
-	gamesList: {ctor: '[]'},
-	playersList: {ctor: '[]'},
-	errors: ''
-};
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {gamesList: a, playersList: b, errors: c};
-	});
-var _user$project$Main$Game = F6(
-	function (a, b, c, d, e, f) {
-		return {description: a, featured: b, id: c, slug: d, thumbnail: e, title: f};
-	});
-var _user$project$Main$decodeGame = A7(
-	_elm_lang$core$Json_Decode$map6,
-	_user$project$Main$Game,
-	A2(_elm_lang$core$Json_Decode$field, 'description', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'featured', _elm_lang$core$Json_Decode$bool),
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'slug', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'thumbnail', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'title', _elm_lang$core$Json_Decode$string));
-var _user$project$Main$decodeGamesList = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'data',
-		_1: {ctor: '[]'}
-	},
-	_elm_lang$core$Json_Decode$list(_user$project$Main$decodeGame));
-var _user$project$Main$Player = F4(
-	function (a, b, c, d) {
-		return {displayName: a, id: b, score: c, username: d};
-	});
-var _user$project$Main$decodePlayer = A5(
-	_elm_lang$core$Json_Decode$map4,
-	_user$project$Main$Player,
-	_elm_lang$core$Json_Decode$maybe(
-		A2(_elm_lang$core$Json_Decode$field, 'display_name', _elm_lang$core$Json_Decode$string)),
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'score', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'username', _elm_lang$core$Json_Decode$string));
-var _user$project$Main$decodePlayersList = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'data',
-		_1: {ctor: '[]'}
-	},
-	_elm_lang$core$Json_Decode$list(_user$project$Main$decodePlayer));
-var _user$project$Main$FetchPlayersList = function (a) {
-	return {ctor: 'FetchPlayersList', _0: a};
-};
-var _user$project$Main$fetchPlayersList = A2(
-	_elm_lang$http$Http$send,
-	_user$project$Main$FetchPlayersList,
-	A2(_elm_lang$http$Http$get, '/api/players', _user$project$Main$decodePlayersList));
-var _user$project$Main$FetchGamesList = function (a) {
-	return {ctor: 'FetchGamesList', _0: a};
-};
-var _user$project$Main$fetchGamesList = A2(
-	_elm_lang$http$Http$send,
-	_user$project$Main$FetchGamesList,
-	A2(_elm_lang$http$Http$get, '/api/games', _user$project$Main$decodeGamesList));
-var _user$project$Main$initialCommand = _elm_lang$core$Platform_Cmd$batch(
-	{
-		ctor: '::',
-		_0: _user$project$Main$fetchGamesList,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Main$fetchPlayersList,
-			_1: {ctor: '[]'}
-		}
-	});
-var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initialModel, _1: _user$project$Main$initialCommand};
 var _user$project$Main$main = _elm_lang$html$Html$program(
-	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
+	{
+		init: _user$project$Main$init,
+		view: _user$project$Main$view,
+		update: _user$project$Main$update,
+		subscriptions: function (_p2) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
 
 var _user$project$Platformer$viewGameText = F3(
 	function (positionX, positionY, str) {
@@ -16983,7 +16746,7 @@ var _user$project$Platformer$NoOp = {ctor: 'NoOp'};
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
 if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Dict.LeafColor":{"args":[],"tags":{"LBBlack":[],"LBlack":[]}},"Dict.Dict":{"args":["k","v"],"tags":{"RBNode_elm_builtin":["Dict.NColor","k","v","Dict.Dict k v","Dict.Dict k v"],"RBEmpty_elm_builtin":["Dict.LeafColor"]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Main.Msg":{"args":[],"tags":{"FetchGamesList":["Result.Result Http.Error (List Main.Game)"],"FetchPlayersList":["Result.Result Http.Error (List Main.Player)"]}},"Dict.NColor":{"args":[],"tags":{"BBlack":[],"Red":[],"NBlack":[],"Black":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String"],"NetworkError":[],"Timeout":[],"BadStatus":["Http.Response String"],"BadPayload":["String","Http.Response String"]}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}}},"aliases":{"Http.Response":{"args":["body"],"type":"{ url : String , status : { code : Int, message : String } , headers : Dict.Dict String String , body : body }"},"Main.Player":{"args":[],"type":"{ displayName : Maybe.Maybe String , id : Int , score : Int , username : String }"},"Main.Game":{"args":[],"type":"{ description : String , featured : Bool , id : Int , slug : String , thumbnail : String , title : String }"}},"message":"Main.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Main.Msg":{"args":[],"tags":{"SetLatitude":["Float"],"SetLatLong":["Float","Float"],"SetLongitude":["Float"]}}},"aliases":{},"message":"Main.Msg"},"versions":{"elm":"0.18.0"}});
 }
 Elm['Platformer'] = Elm['Platformer'] || {};
 if (typeof _user$project$Platformer$main !== 'undefined') {
